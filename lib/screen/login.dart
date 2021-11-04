@@ -10,7 +10,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   var email, password;
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -77,12 +76,14 @@ class _LoginState extends State<Login> {
                 Container(
                   width: size.width * 0.8,
                   height: size.height * 0.08,
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                         side: BorderSide(color: pColor)),
                     onPressed: () {
                       formKey.currentState!.save();
+                      Navigator.pushNamed(context, 'Dashboard');
 
                       var local = DBLocal();
                       local.login(email, password).then((response) {

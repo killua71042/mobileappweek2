@@ -3,8 +3,6 @@ import 'package:mobileappweek2/backend/database.dart';
 import 'package:mobileappweek2/config/constant.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
-
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -26,9 +24,9 @@ class _RegisterState extends State<Register> {
             child: Column(
               children: [
                 txtName(),
-                txtSurname(),
+                txtSurName(),
                 txtEmail(),
-                txtPassword(),
+                txtPass(),
                 btnSubmit(),
               ],
             ),
@@ -47,15 +45,15 @@ class _RegisterState extends State<Register> {
           color: pColor,
         ),
         decoration: InputDecoration(
-          labelText: 'Name:',
+          labelText: 'Name : ',
           icon: Icon(Icons.account_circle),
           hintText: 'Input your name',
         ),
         validator: (value) {
           if (value!.isEmpty) {
-            return 'กรุณาใส่ข้อมูลด้วย';
+            return 'กรุณาป้อนข้อมูล';
           } else if (value.length < 2) {
-            return 'กรุณาใส่ข้อมูลมากกว่า 2 ตัวอักษร';
+            return 'ต้องมีตัวอักษรมากกว่า 2 ตัว';
           }
         },
         onSaved: (value) {
@@ -65,7 +63,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget txtSurname() {
+  Widget txtSurName() {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 20, 15, 20),
       child: TextFormField(
@@ -74,17 +72,19 @@ class _RegisterState extends State<Register> {
           color: pColor,
         ),
         decoration: InputDecoration(
-          labelText: 'Surname:',
+          labelText: 'Surname : ',
           icon: Icon(Icons.add_reaction_sharp),
           hintText: 'Input your surname',
         ),
         validator: (value) {
           if (value!.isEmpty) {
-            return 'กรุณากรอกข้อมูล';
+            return 'กรุณาป้อนข้อมูล';
+          } else if (value.length < 2) {
+            return 'ต้องมีตัวอักษรมากกว่า 2 ตัว';
           }
         },
         onSaved: (value) {
-          surname = value!.trim();
+          surname = value;
         },
       ),
     );
@@ -100,15 +100,15 @@ class _RegisterState extends State<Register> {
           color: pColor,
         ),
         decoration: InputDecoration(
-          labelText: 'Email:',
-          icon: Icon(Icons.email),
+          labelText: 'Email : ',
+          icon: Icon(Icons.email_sharp),
           hintText: 'Input your email',
         ),
         validator: (value) {
           if (!(value!.contains('@'))) {
-            return 'กรุณากรอกข้อมูลตามรูปแบบอีเมลด้วย';
+            return 'กรุณาป้อน @ ตามรูปแบบ Email';
           } else if (!(value.contains('.'))) {
-            return 'กรุณากรอกข้อมูลตามรูปแบบอีเมลด้วย';
+            return 'กรุณาป้อน . ตามรูปแบบ Email';
           }
         },
         onSaved: (value) {
@@ -118,7 +118,7 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  Widget txtPassword() {
+  Widget txtPass() {
     return Container(
       margin: EdgeInsets.fromLTRB(15, 20, 15, 20),
       child: TextFormField(
@@ -128,10 +128,17 @@ class _RegisterState extends State<Register> {
           color: pColor,
         ),
         decoration: InputDecoration(
-          labelText: 'Password:',
-          icon: Icon(Icons.lock),
+          labelText: 'Password : ',
+          icon: Icon(Icons.password_rounded),
           hintText: 'Input your password',
         ),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'กรุณาป้อนข้อมูล';
+          } else if (value.length < 8) {
+            return 'กรุณาป้อนข้อมูลมากกว่า 8 ตัว';
+          }
+        },
         onSaved: (value) {
           password = value;
         },
@@ -144,13 +151,15 @@ class _RegisterState extends State<Register> {
           primary: pColor,
         ),
         onPressed: () {
-          print("Hello");
+          print("OK");
 
           var local = new DBLocal();
 
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
             local.register(name, surname, email, password);
+            //  print(
+            //  "Name : $name Surname : $surname Email : $email Password : $password");
             formKey.currentState!.reset();
             Navigator.pushNamed(context, 'Login');
           }
