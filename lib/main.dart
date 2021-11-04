@@ -1,15 +1,25 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mobileappweek2/config/constant.dart';
 import 'package:mobileappweek2/screen/dashboard.dart';
+import 'package:mobileappweek2/screen/firebaselogin.dart';
+import 'package:mobileappweek2/screen/firebaseregister.dart';
 import 'package:mobileappweek2/screen/login.dart';
 import 'package:mobileappweek2/screen/packageimage.dart';
 import 'package:mobileappweek2/screen/packagelocation.dart';
 import 'package:mobileappweek2/screen/packagevideo.dart';
-import 'package:mobileappweek2/screen/register.dart';
-import 'screen/home.dart';
 import 'screen/index.dart';
 
-void main() => runApp(MyApp());
+// void main() => runApp(MyApp());
+
+Future<void> main() async {
+  // เปิด Connection ไปที่ Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  // Run App
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,15 +27,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Index(),
       routes: {
-        'Login': (context) => Login(),
-        'Register': (context) => Register(),
+        'Index': (context) => Index(),
+        'Login': (context) => FirebaseLogin(),
+        'Register': (context) => FirebaseRegister(),
         'Dashboard': (context) => Dashboard(),
         'Image': (context) => PackageImage(),
         'Video': (context) => PackageVideo(),
         'Location': (context) => PackageLocation(),
       },
       theme: ThemeData(
-        primaryColor: pColor,
+        primaryColor: sColor,
         secondaryHeaderColor: sColor,
       ),
     );
